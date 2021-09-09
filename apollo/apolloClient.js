@@ -1,8 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 import fetch from 'cross-fetch';
-import getConfig from 'next/config';
-
-const { publicRuntimeConfig } = getConfig();
 
 const httpLink = new HttpLink({
     uri: "http://localhost:8888/.netlify/functions/store",
