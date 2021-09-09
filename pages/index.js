@@ -3,8 +3,14 @@ import { Center, Footer, Tag, Showcase, DisplaySmall, DisplayMedium } from '../c
 import { titleIfy, slugify } from '../utils/helpers'
 import { fetchInventory } from '../utils/inventoryProvider'
 import CartLink from '../components/CartLink'
+import { useQuery } from "@apollo/client";
+import { GET_ALL_PRODUCTS } from '../apollo/queries/getAllProducts';
+import { initializeApollo } from '../apollo/apollo';
+
+
 
 const Home = ({ inventoryData = [], categories: categoryData = [] }) => {
+  const { data, loading, error } = useQuery(GET_ALL_PRODUCTS);
   const inventory = inventoryData.slice(0, 4)
   const categories = categoryData.slice(0, 2)
 
@@ -12,6 +18,8 @@ const Home = ({ inventoryData = [], categories: categoryData = [] }) => {
     <>
       <CartLink />
       <div className="w-full">
+        {console.log("DATA => ", data)}
+        {/* {console.log("ERROR=>", error)} */}
         <Head>
           <title>Jamstack ECommerce</title>
           <meta name="description" content="Jamstack ECommerce Next provides a way to quickly get up and running with a fully configurable ECommerce site using Next.js." />
@@ -100,6 +108,12 @@ const Home = ({ inventoryData = [], categories: categoryData = [] }) => {
 }
 
 export async function getStaticProps() {
+
+    const apolloClient = initializeApollo();
+    await apolloClient.query({
+      query: GET_ALL_PRODUCTS
+    });
+    // return { props: { initialApolloState: apolloClient.cache.extract() } };
   const inventory = await fetchInventory()
   // console.log(inventory);
 
@@ -127,8 +141,9 @@ export async function getStaticProps() {
   
   return {
     props: {
-      inventoryData: inventory,
-      categories: inventoryCategorized
+      initialApolloState: apolloClient.cache.extract(),
+            inventoryData: inventory,
+      categories: inventoryCategorized,
     }
   }
 }

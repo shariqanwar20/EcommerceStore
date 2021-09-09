@@ -3,12 +3,12 @@ import inventory from './inventory'
 /*
 Inventory items should adhere to the following schema:
 type Product {
-  id: ID! - done
-  categories: [String]! -done
+  id: ID! 
+  categories: [String]! 
   price: Float!
-  name: String!- done
+  name: String!
   image: String!
-  description: String! - done
+  description: String! 
   currentInventory: Int!
   brand: String
   sku: ID
