@@ -3,6 +3,7 @@ import Layout from '../layouts/layout'
 import fetchCategories from '../utils/categoryProvider'
 import { ApolloProvider } from '@apollo/client';
 import { useApollo } from '../apollo/apollo';
+// import { client } from "../apollo/client";
 
 function Ecommerce({ Component, pageProps, categories }) {
   console.log("Inital state => ",pageProps.initialApolloState);

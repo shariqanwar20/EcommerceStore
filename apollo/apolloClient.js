@@ -5,7 +5,7 @@ import getConfig from 'next/config';
 const { publicRuntimeConfig } = getConfig();
 
 const httpLink = new HttpLink({
-    uri: "https://countries.trevorblades.com",
+    uri: "http://localhost:8888/.netlify/functions/store",
     fetch,
   });
 

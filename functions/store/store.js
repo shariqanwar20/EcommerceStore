@@ -1,8 +1,8 @@
 require("dotenv").config();
-import faunadb from "faunadb";
+const faunadb = require("faunadb");
 const q = faunadb.query;
 
-import { ApolloServer, gql } from "apollo-server-lambda";
+const { ApolloServer, gql } = require("apollo-server-lambda");
 
 const typeDefs = gql`
   type Query {
@@ -81,7 +81,7 @@ const resolvers = {
               secret: process.env.FAUNADB_ADMIN_SECRET,
             });
 
-            const result: any = await client.query(
+            const result = await client.query(
               q.Map(
                 q.Paginate(q.Documents(q.Collection("Products"))),
                 q.Lambda((x) => q.Get(x))
@@ -144,8 +144,8 @@ const resolvers = {
           secret: process.env.FAUNADB_ADMIN_SECRET,
         });
 
-        let result: any;
-        let existingCartProduct: any;
+        let result;
+        let existingCartProduct;
         if (product.quantity <= 0) {
           result = await client.query(
             q.Delete(q.Ref(q.Collection("Cart"), product.id))
@@ -188,7 +188,7 @@ const resolvers = {
           secret: process.env.FAUNADB_ADMIN_SECRET,
         });
 
-        const result: any = await client.query(
+        const result = await client.query(
           q.Create(q.Collection("Products"), {
             data: {
               categories: product.categories, 
