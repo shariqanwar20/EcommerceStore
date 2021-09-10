@@ -1,0 +1,15 @@
+{
+  "name": "mystore",
+  "version": "1.0.0",
+  "description": "",
+  "main": "myStore.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "faunadb": "^4.4.1"
+  }
+}
