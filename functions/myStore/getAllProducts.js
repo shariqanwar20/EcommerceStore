@@ -1,29 +1,34 @@
 const getAllProducts = async (q, client) => {
 
-    const result = await client.query(
-        q.Map(
-            q.Paginate(q.Documents(q.Collection("Products"))),
-            q.Lambda((x) => q.Get(x))
-        )
-    );
-    console.log(result);
-    const products = result.data && result.data.map((product) => {
-        //   console.log(product.ref.id);
+    try {
+        const result = await client.query(
+            q.Map(
+                q.Paginate(q.Documents(q.Collection("Products"))),
+                q.Lambda((x) => q.Get(x))
+            )
+        );
+        console.log(result);
+        const products = result.data && result.data.map((product) => {
+            console.log(product.data);
+            return {
+                id: product.ref.id,
+                categories: product.data.categories,
+                price: product.data.price,
+                name: product.data.name,
+                image: product.data.image,
+                description: product.data.description,
+                currentInventory: product.data.currentInventory,
+                brand: product.data.brand
+            };
+        });
         return {
-            id: product.ref.id,
-            categories: product.data.categories,
-            price: product.data.price,
-            name: product.name,
-            image: product.image,
-            description: product.description,
-            currentInventory: product.currentInventory,
-            brand: product.brand
+            statusCode: 200,
+            body: JSON.stringify(products),
         };
-    });
-    return {
-        statusCode: 200,
-        body: JSON.stringify(products),
-    };
+    } catch (error) {
+        return { statusCode: 500, body: error.toString() };
+    }
+    
 }
 
 

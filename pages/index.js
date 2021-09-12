@@ -8,6 +8,7 @@ import axios from 'axios';
 
 const Home = ({ inventoryData = [], categories: categoryData = [] }) => {
 
+
   useEffect(() => {
     axios.get("/.netlify/functions/myStore", {
       headers: {

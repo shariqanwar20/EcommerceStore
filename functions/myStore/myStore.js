@@ -1,11 +1,29 @@
 // Docs on event and context https://www.netlify.com/docs/functions/#the-handler-method
 var faunadb = require("faunadb");
 const {getAllProducts} = require("./getAllProducts");
+const {addProductInInventory} = require("./addProductInInventory");
+const {addProductToCart} = require("./addProductToCart")
 var q = faunadb.query;
 
 require("dotenv").config();
 
+/* 
+  get a specific product based on id
+  get all products based on categories
+  get items in cart
+  get all products in inventory
+
+  addProduct in inventroy
+  add product in cart 
+  update quantity of product in cart and inventory
+
+  place order
+
+  change the image object format and the way to display them based on cloudinary
+*/
+
 const handler = async (event) => {
+  console.log(event.headers.fieldname);
   try {
     if (process.env.FAUNADB_ADMIN_SECRET) {
       var client = new faunadb.Client({
@@ -14,6 +32,14 @@ const handler = async (event) => {
 
       if (event.httpMethod === "GET" && event.headers.fieldname === "getAllProducts") {
         return await getAllProducts(q, client);
+      }
+      else if (event.httpMethod === "POST" && event.headers.fieldname === "addProductInInventory") {
+        console.log("hello");
+        return await addProductInInventory(JSON.parse(event.body), q, client);
+      }
+      else if (event.httpMethod === "POST" && event.headers.fieldname === "addProductToCart") {
+        console.log("hello");
+        return await addProductToCart(JSON.parse(event.body), q, client);
       }
     }
 
