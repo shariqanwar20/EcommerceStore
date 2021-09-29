@@ -10,13 +10,13 @@ const Home = ({ inventoryData = [], categories: categoryData = [] }) => {
 
 
   useEffect(() => {
-    axios.get("/.netlify/functions/myStore", {
-      headers: {
-        "fieldName": "getAllProducts"
-      }
-    }).then((res) => {
-      console.log(res);
-    })
+    // axios.get("/.netlify/functions/myStore", {
+    //   headers: {
+    //     "fieldName": "getAllProducts"
+    //   }
+    // }).then((res) => {
+    //   console.log(res);
+    // })
   }, [])
 
   const inventory = inventoryData.slice(0, 4)

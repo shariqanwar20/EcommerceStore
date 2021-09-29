@@ -1,4 +1,5 @@
 import inventory from './inventory'
+import axios from 'axios'
 
 /*
 Inventory items should adhere to the following schema:
@@ -21,7 +22,13 @@ async function fetchInventory() {
   // // console.log(response);
   // const data = await response.json();
 
-  // // console.log(data);
+  const inventory = await axios.get("http://localhost:8888/.netlify/functions/myStore", {
+    headers: {
+      "fieldName": "getAllProducts"
+    }
+  })
+
+  // console.log(i);
   // const inventory = data.map((item) => {
   //   return {
   //     id: item.id,
@@ -38,7 +45,7 @@ async function fetchInventory() {
   //   }
   // })
 
-  return Promise.resolve(inventory)
+  return Promise.resolve(inventory.data)
 }
 
 export {

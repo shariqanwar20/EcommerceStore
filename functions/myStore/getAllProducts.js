@@ -7,9 +7,7 @@ const getAllProducts = async (q, client) => {
                 q.Lambda((x) => q.Get(x))
             )
         );
-        console.log(result);
         const products = result.data && result.data.map((product) => {
-            console.log(product.data);
             return {
                 id: product.ref.id,
                 categories: product.data.categories,
