@@ -6,16 +6,17 @@ import QuantityPicker from '../../components/QuantityPicker'
 import { fetchInventory } from '../../utils/inventoryProvider'
 import { slugify } from '../../utils/helpers'
 import CartLink from '../../components/CartLink'
-import { SiteContext, ContextProviderComponent } from '../../context/mainContext'
+import { SiteContext, ContextProviderComponent, addToCart } from '../../context/mainContext'
 
 const ItemView = (props) => {
   const [numberOfitems, updateNumberOfItems] = useState(1)
   const { product } = props
   const { price, image, name, description } = product
-  const { context: { addToCart } } = props
+  // const { context: { addToCart } } = props
 
   function addItemToCart(product) {
     product["quantity"] = numberOfitems
+    console.log("Product => ", product);
     addToCart(product)
   }
 

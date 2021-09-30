@@ -1,9 +1,13 @@
 const addProductToCart = async (input, q, client) => {
+  console.log(input);
     try {
         const result = await client.query(
             q.Create(q.Collection("Cart"), {
               data: {
-                id: q.Ref(q.Collection("Products"), input.productId),
+                productId: input.id,
+                name: input.name,
+                image: input.image,
+                price: input.price,
                 quantity: input.quantity
               }
             })
@@ -11,12 +15,12 @@ const addProductToCart = async (input, q, client) => {
   
           console.log(result);
           return {
-            name: "hi",
-            price: 24.86,
-            image: "https://cloudinary.com/uploads/image",
-            quantity: 4
-          }
+            statusCode: 200,
+            body: JSON.stringify(result)
+          };
     } catch (error) {
         return { statusCode: 500, body: error.toString() };
     }
 }
+
+module.exports = { addProductToCart }

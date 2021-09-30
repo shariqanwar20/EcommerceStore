@@ -2,7 +2,11 @@
 var faunadb = require("faunadb");
 const {getAllProducts} = require("./getAllProducts");
 const {addProductInInventory} = require("./addProductInInventory");
-const {addProductToCart} = require("./addProductToCart")
+const {addProductToCart} = require("./cart/addProductToCart")
+const {getProductsInCart} = require("./cart/getProductsInCart")
+const {removeProductFromCart} = require("./cart/removeProductFromCart")
+const {updateCartProductQuantity} = require("./cart/updateCartProductQuantity")
+
 var q = faunadb.query;
 
 require("dotenv").config();
@@ -41,6 +45,19 @@ const handler = async (event) => {
         console.log("hello");
         return await addProductToCart(JSON.parse(event.body), q, client);
       }
+      else if (event.httpMethod === "GET" && event.headers.fieldname === "getProductsInCart") {
+        console.log("hello");
+        return await getProductsInCart(q, client);
+      }
+      else if (event.httpMethod === "POST" && event.headers.fieldname === "removeProductFromCart") {
+        console.log("hello");
+        return await removeProductFromCart(JSON.parse(event.body), q, client);
+      }
+      else if (event.httpMethod === "POST" && event.headers.fieldname === "updateCartProductQuantity") {
+        console.log("hello");
+        return await updateCartProductQuantity(JSON.parse(event.body), q, client);
+      }
+      
     }
 
   }

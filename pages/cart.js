@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { FaTimes, FaLongArrowAltRight } from 'react-icons/fa'
-import { SiteContext, ContextProviderComponent } from '../context/mainContext'
+import { SiteContext, ContextProviderComponent, getItemsInCart, removeFromCart, setItemQuantity, calculateTotal } from '../context/mainContext'
 import DENOMINATION from '../utils/currencyProvider'
 import { slugify } from '../utils/helpers'
 import QuantityPicker from '../components/QuantityPicker'
@@ -11,23 +11,27 @@ import CartLink from '../components/CartLink'
 
 const Cart = ({ context }) => {
   const [renderClientSideComponent, setRenderClientSideComponent] = useState(false)
+  const [cart, setCart] = useState([]);
   useEffect(() => {
     setRenderClientSideComponent(true)
+    getItemsInCart().then((items) => {
+      setCart(items);
+    })
   }, [])
-  const {
-    numberOfItemsInCart, cart, removeFromCart, total, setItemQuantity
-  } = context
-  const cartEmpty = numberOfItemsInCart === Number(0)
+  // const {
+  //   numberOfItemsInCart, cart, removeFromCart, total, setItemQuantity
+  // } = context
+  const cartEmpty = cart.length === Number(0)
 
   function increment(item) {
     item.quantity = item.quantity + 1
-    setItemQuantity(item)
+    setItemQuantity({ id: item.id, quantity: item.quantity })
   }
 
   function decrement(item) {
     if (item.quantity === 1) return
     item.quantity = item.quantity - 1
-    setItemQuantity(item)
+    setItemQuantity({ id: item.id, quantity: item.quantity })
   }
 
   if (!renderClientSideComponent) return null
@@ -56,15 +60,13 @@ const Cart = ({ context }) => {
               <div className="flex flex-col">
                 <div>
                   {
-                    cart.map((item) => {
+                    cart && cart.map((item) => {
                       return (
                         <div className="border-b py-10" key={item.id}>
                           <div className="flex items-center hidden md:flex">
                             <Link href={`/product/${slugify(item.name)}`}>
                               <a aria-label={item.name}>
-                                {/* <div className="w-32 m-0"> */}
                                 <Image className="w-32 m-0" src={item.image} alt={item.name} />
-                                {/* </div> */}
                               </a>
                             </Link>
                             <Link href={`/product/${slugify(item.name)}`}>
@@ -88,7 +90,7 @@ const Cart = ({ context }) => {
                                 {DENOMINATION + item.price}
                               </p>
                             </div>
-                            <div role="button" onClick={() => removeFromCart(item)} className="
+                            <div role="button" onClick={() => removeFromCart(item.id)} className="
                             m-0 ml-10 text-gray-900 text-s cursor-pointer
                             ">
                               <FaTimes />
@@ -98,9 +100,7 @@ const Cart = ({ context }) => {
                           <div className="flex items-center flex md:hidden">
                             <Link href={`/product/${slugify(item.name)}`}>
                               <a>
-                              {/* <div className="w-32 m-0"> */}
                                 <Image className="w-32 m-0" src={item.image} alt={item.name} />
-                                {/* </div> */}
                               </a>
                             </Link>
                             <div>
@@ -143,7 +143,8 @@ const Cart = ({ context }) => {
           }
           <div className="flex flex-1 justify-end py-8">
             <p className="text-sm pr-10">Total</p>
-            <p className="font-semibold tracking-wide">{DENOMINATION + total}</p>
+            {/* Todo: add total */}
+            <p className="font-semibold tracking-wide">{DENOMINATION + calculateTotal(cart)}</p>
           </div>
           {!cartEmpty && (
             <Link href="/checkout" className="flex flex-1 justify-end">
