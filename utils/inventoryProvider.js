@@ -24,7 +24,7 @@ async function fetchInventory() {
     }
   })
 
-  console.log("Inventory => ", inventory.data);
+  // console.log("Inventory => ", inventory.data);
 
   return Promise.resolve(inventory.data)
 }

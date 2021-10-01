@@ -85,7 +85,7 @@ export const AddInventory = () => {
                 }
               )
               const { data } = res
-              console.log(data.ref["@ref"].id)
+              // console.log(data.ref["@ref"].id)
               resetForm({
                 values: initialState,
               })

@@ -38,7 +38,7 @@ export const addToCart = async (cartItem) => {
     }
   )
 
-  console.log(result.data.data);
+  // console.log(result.data.data);
   toast("Successfully added item to cart!", {
     position: toast.POSITION.TOP_LEFT
   })
@@ -51,7 +51,7 @@ export const getItemsInCart = async() => {
     }
   })
 
-  console.log(result.data);
+  // console.log(result.data);
   return result.data;
 }
 

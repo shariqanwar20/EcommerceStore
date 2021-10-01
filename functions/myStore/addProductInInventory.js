@@ -14,7 +14,7 @@ const addProductInInventory = async (input, q, client) => {
             })
           );
   
-          console.log(result);
+          // console.log(result);
           return {
             statusCode: 200,
             body: JSON.stringify(result)

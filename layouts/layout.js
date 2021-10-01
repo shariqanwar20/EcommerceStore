@@ -36,7 +36,7 @@ export default function Layout({ children, categories }) {
               </Link>
               {
                 categories.map((category, index) => {
-                  console.log(category);
+                  // console.log(category);
                   return(
                   <Link
                     href={`/category/${slugify(category)}`}

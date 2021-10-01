@@ -1,5 +1,5 @@
 const addProductToCart = async (input, q, client) => {
-  console.log(input);
+  // console.log(input);
     try {
         const result = await client.query(
             q.Create(q.Collection("Cart"), {
@@ -13,7 +13,7 @@ const addProductToCart = async (input, q, client) => {
             })
           );
   
-          console.log(result);
+          // console.log(result);
           return {
             statusCode: 200,
             body: JSON.stringify(result)
