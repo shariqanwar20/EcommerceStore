@@ -75,7 +75,7 @@ export const AddInventory = () => {
               )
                 return
               // add to database
-              const res = await axios.post(
+              axios.post(
                 "/.netlify/functions/myStore",
                 JSON.stringify(values),
                 {
@@ -83,9 +83,17 @@ export const AddInventory = () => {
                     fieldName: "addProductInInventory",
                   },
                 }
-              )
-              const { data } = res
-              // console.log(data.ref["@ref"].id)
+              ).then((res) => {
+
+                /* trigger netlify build as new item is added to inventory */
+                axios.post("https://api.netlify.com/build_hooks/6156dbbacff33cbf1e5c8f78")
+                .then(function (response) {
+                  console.log(response);
+                })
+                .catch(function (error) {
+                  console.error(error);
+                });
+              })
               resetForm({
                 values: initialState,
               })
