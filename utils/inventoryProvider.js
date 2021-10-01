@@ -18,7 +18,7 @@ type Product {
 
 /* fetch all products from strapi where each product has the above format */
 async function fetchInventory() {
-  const inventory = await axios.get("http://itus.netlify.app/.netlify/functions/myStore", {
+  const inventory = await axios.get("https://itus.netlify.app/.netlify/functions/myStore", {
     headers: {
       "fieldName": "getAllProducts"
     }
